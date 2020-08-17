@@ -23,11 +23,12 @@ public class NBody {
 	
 		// TODO: read values at beginning of file to
 		// find the radius
-		
+		int num_bodies = s.nextInt();
+		double radius = s.nextDouble();
 		s.close();
 		
 		// TODO: return radius read
-		return 0;	
+		return radius;
 	}
 	
 	/**
@@ -42,19 +43,24 @@ public class NBody {
 			Scanner s = new Scanner(new File(fname));
 			
 			// TODO: read # bodies, create array, ignore radius
-			int nb = 0; // # bodies to be read
-			
+			int nb = s.nextInt(); // # bodies to be read
+			double r = s.nextDouble(); // radius
+			Body[] arr = new Body[nb]; // create empty array of length nb
+
 			for(int k=0; k < nb; k++) {
 				
 				// TODO: read data for each body
 				// construct new body object and add to array
+				arr[k] = new Body(s.nextDouble(), s.nextDouble(),s.nextDouble(),s.nextDouble(), s.nextDouble(), s.next());
+
 			}
 			
 			s.close();
 			
 			// TODO: return array of body objects read
-			return null;
+			return arr;
 	}
+
 	public static void main(String[] args) throws FileNotFoundException{
 		double totalTime = 157788000.0;
 		double dt = 25000.0;
@@ -76,17 +82,29 @@ public class NBody {
 			
 			// TODO: create double arrays xforces and yforces
 			// to hold forces on each body
-			
+			double[] xforces = new double[bodies.length];
+			double[] yforces = new double[bodies.length];
+
 			// TODO: loop over all bodies, calculate
 			// net forces and store in xforces and yforces
-			
+			for (int index = 0; index < bodies.length; index++) {
+				xforces[index] = bodies[index].calcNetForceExertedByX(bodies);
+				yforces[index] = bodies[index].calcNetForceExertedByY(bodies);
+			}
+
 			// TODO: loop over all bodies and call update
 			// with dt and corresponding xforces, yforces values
-			
+			for (int index2 = 0; index2 < bodies.length; index2++) {
+				bodies[index2].update(dt,xforces[index2],yforces[index2]);
+			}
+
 			StdDraw.picture(0,0,"images/starfield.jpg");
 			
 			// TODO: loop over all bodies and call draw on each one
-			
+			for (int index3 = 0; index3 < bodies.length; index3++) {
+				bodies[index3].draw();
+			}
+
 			StdDraw.show(10);
 		}
 		
